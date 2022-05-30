@@ -26,8 +26,8 @@ recipient email. Example, name='person1', level=1 where recipientEmail='person1@
 
 # Gmail Accounts
 Before sending an email, a valid Gmail account must exist that has these settings enabled:
-[lesssecureapps](https://www.google.com/settings/security/lesssecureapps)
-[DisplayUnlockCaptcha](https://accounts.google.com/DisplayUnlockCaptcha)
+- [lesssecureapps](https://www.google.com/settings/security/lesssecureapps)
+- [DisplayUnlockCaptcha](https://accounts.google.com/DisplayUnlockCaptcha)
 
 [Make Google Accounts Without Phone Number](https://www.quora.com/How-can-I-create-a-Google-account-without-a-phone-number-during-the-registration-process)
 Note: This requires an android phone, I needed this since my phone number was used for too many Google accounts
