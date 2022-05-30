@@ -1,31 +1,16 @@
-import smtplib
-import ssl
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from enum import Enum
+import smtplib
 import time
+import ssl
+
 from message_dictionary import phishingLevelDict as PLD
 from email_dictionary import emailList
 
-"""
-Background: The goal is to simulate attack vectors in the form of phishing emails.
-            This script will automate the sending of suspicious emails to see if targets are aware
-            and if Gmail can filter these incoming emails
 
-Reference:  https://realpython.com/python-send-email/
-            https://docs.python.org/3/library/smtplib.html#module-smtplib
-            https://stackoverflow.com/questions/26852128/smtpauthenticationerror-when-sending-mail-using-gmail-and-python
-            https://accounts.google.com/DisplayUnlockCaptcha
-            
-Thoughts:   I can try to target the company with different types of phishing attacks which can be done in levels:
-            lvl1 - Pretend to be a generic company to see if people will click a link
-            lvl2 - Pretend to be Anne sending out a specific announcement e.g. COVID-19 update
-            lvl3 - Pretend to be Anne and send out personal emails to each individual
-            
-Psychology: https://www.campaignmonitor.com/blog/email-marketing/improve-email-click-through-rate-psychology/
-
-Make Google Accounts Without Phone Number: https://www.quora.com/How-can-I-create-a-Google-account-without-a-phone-number-during-the-registration-process
-Note: This requires an android phone, I needed this since my phone number was used for too many Google accounts
-"""
+class Status(Enum):
+    ERROR = -1
 
 
 class SmtpPackage(object):
@@ -34,7 +19,11 @@ class SmtpPackage(object):
         self.sender_email = kwargs['senderEmail']
         self.receiver_email = kwargs['recipientEmail']
         self.port = kwargs['port']
-        self.password = kwargs['password']
+        if self.sender_email == "supp0rt.my.phish@gmail.com":
+            self.password = "pl3a$eD0ntH4ckM3!"
+        else:
+            input(f'Type your password for user: {self.sender_email}, and press enter: ')
+            self.password = kwargs['password']
         self.message = None
 
     def smtpExecuteSend(self, amount=1):
@@ -71,8 +60,8 @@ class SmtpPackage(object):
         self.message["From"] = self.sender_email
         if level == 2:
             answer = input('Please verify that the emailDictionary in email_dictionary.py is correct (Y/N): ')
-            if answer != 'Y':
-                return
+            if answer.lower() != 'y':
+                return Status.ERROR
             self.message["To"] = ", ".join(emailList)
         else:
             self.message["To"] = self.receiver_email
@@ -86,6 +75,8 @@ class SmtpPackage(object):
         """
 
         html = self.messageBuilderHelper(name=name, level=level)
+        if html == Status.ERROR:
+            return html
 
         # Turn these into plain/html MIMEText objects
         part1 = MIMEText(text, "plain")
@@ -98,26 +89,37 @@ class SmtpPackage(object):
 
     # This method should pull a html email template from a dictionary based on how advanced the phishing attack is
     def messageBuilderHelper(self, name, level=1):
-        if level == 2:
-            name = 'TEAM_NAME'
+        if level in range(1, 4):
+            if level == 2:
+                name = 'Team Name'
 
-        self.message["Subject"] = PLD[level]['subject']
-        message = PLD[level]['beforeName'] + name + PLD[level]['afterName'] + PLD[level]['linkHTML'] + PLD[level]['afterLink']
+            self.message["Subject"] = PLD[level]['subject']
+            message = PLD[level]['beforeName'] + name + PLD[level]['afterName'] + PLD[level]['linkHTML'] + PLD[level]['afterLink']
+        elif level == 4:
+            self.message["Subject"] = PLD[level]['subject']
+            message = PLD[level]['body1'] + PLD[level]['body2']
+        else:
+            print('This level is not yet configured in the messageBuilderHelper method')
+            return Status.ERROR
         return message
 
 
 def main():
 
-    sender_email = "create_new_email@gmail.com"  # You need to create an email account and replace it here
-    # Also update the RETURN_EMAIL in message_dictionary.py
+    # TODO You need to create an email account and replace it here as well as the recipient email
+    #  Also update the RETURN_EMAIL in message_dictionary.py
+    sender_email = "supp0rt.my.phish@gmail.com"  # This is a working sample
+    # sender_email = "<create_new_email@gmail.com>"
+    recipient_email = "<recipient_email@gmail.com>"
 
     # Port 465 for SSL || 587 for TLS || 1025 for local
     smtp_package = SmtpPackage(server="smtp.gmail.com",
-                               senderEmail=sender_email, recipientEmail="person1@gmail.com", port=587,
-                               password=input(f'Type your password for user: {sender_email}, and press enter: '))
-
-    smtp_package.mimeMessageBuilder(name='RECIPIENT_NAME', level=1)
-    smtp_package.smtpExecuteSend(amount=1)
+                               senderEmail=sender_email, recipientEmail=recipient_email, port=587)
+    # TODO ________________________w3rVu!ner4bl3
+    # TODO Update the recipient name (if the email requires it) and choose the email level
+    status = smtp_package.mimeMessageBuilder(name='Recipient Name', level=4)
+    if status != Status.ERROR:
+        smtp_package.smtpExecuteSend(amount=1)
 
 
 if __name__ == '__main__':
