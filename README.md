@@ -9,7 +9,7 @@ RETURN_EMAIL in the Source.message_dictionary.py file.
 
 # Message Contents
 To change the contents of the messages, edit the string constants found in Source.message_dictionary.py where the
-variables end in _P1, _P2, _P3 for each level/phase.
+variables end in _P1, _P2, _P3, _P4 for each level/phase.
 
 
 # Recipients
@@ -21,7 +21,7 @@ receive the email.
 # Send Email
 In Source.main.py, the sender emails can be set in addition to the name of the target e.g. John Doe. In
 the mimeMessageBuilder() method, define the name and level parameters which must match for a given
-recipient email. Example, name='Mike', level=1 where recipientEmail='person1@gmail.com'
+recipient email. Example, name='person1', level=1 where recipientEmail='person1@gmail.com'
 
 
 # Gmail Accounts
