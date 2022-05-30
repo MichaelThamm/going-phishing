@@ -1,7 +1,6 @@
 Welcome, your mission is to test the awareness of the company staff to spot phishing emails.
 
-To run the code, take the [requirements.txt](https://github.com/MichaelThamm/Optimization-CaseStudy/blob/main/requirements.txt)
-and run the code. If you are not sure how to do so follow this [Cheat-Sheet](https://github.com/MichaelThamm/Career-Cheat-Sheets/blob/main/Development-Environment/PythonVirtualEnvironment.md) guide.
+_Note: There are no dependencies for this project, just run the code_
 
 # Summary
 This project was created as a point and click phishing attack with the intent to
