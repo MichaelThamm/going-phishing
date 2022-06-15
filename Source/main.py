@@ -20,7 +20,7 @@ class SmtpPackage(object):
         self.receiver_email = kwargs['recipientEmail']
         self.port = kwargs['port']
         if self.sender_email == "supp0rt.my.phish@gmail.com":
-            self.password = "pl3a$eD0ntH4ckM3!"
+            self.password = "khdjwzwslrzudlue"
         else:
             input(f'Type your password for user: {self.sender_email}, and press enter: ')
             self.password = kwargs['password']
@@ -115,7 +115,7 @@ def main():
     # Port 465 for SSL || 587 for TLS || 1025 for local
     smtp_package = SmtpPackage(server="smtp.gmail.com",
                                senderEmail=sender_email, recipientEmail=recipient_email, port=587)
-    # TODO ________________________w3rVu!ner4bl3
+    
     # TODO Update the recipient name (if the email requires it) and choose the email level
     status = smtp_package.mimeMessageBuilder(name='Recipient Name', level=4)
     if status != Status.ERROR:
