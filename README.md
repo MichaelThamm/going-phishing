@@ -28,7 +28,7 @@ recipient email. Example, name='person1', level=1 where recipientEmail='person1@
 # Gmail Accounts
 Before sending an email, a valid Gmail account must exist that has these settings enabled:
 
-_Note: "To help keep your account secure, starting May 30, 2022, Google will no longer support the use of third-party apps or devices which ask you to sign in to your Google Account using only your username and password." [Link](https://support.google.com/accounts/answer/6010255?hl=en)_
+_Note: "To help keep your account secure, starting May 30, 2022, Google will no longer support the use of third-party apps or devices which ask you to sign in to your Google Account using only your username and password." [Link](https://support.google.com/accounts/answer/6010255?hl=en). To allow the Python code to send emails from your gmail account you must now enable application specific passwords which can be set up via this [Tutorial](https://www.youtube.com/watch?v=uVDq4VOBMNM)_
 - [lesssecureapps](https://www.google.com/settings/security/lesssecureapps)
 - [DisplayUnlockCaptcha](https://accounts.google.com/DisplayUnlockCaptcha)
 
